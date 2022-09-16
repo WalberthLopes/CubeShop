@@ -1,0 +1,8 @@
+# Set your postgres url bellow to use the database validation function.
+Postgres_URL: "jdbc:postgresql://[YOUR-URL]:[YOUR-PORT]/postgres?user=[YOUR-USER]&password=[YOUR-PASSWORD]"
+Prefix: "&5&l[Cube] "
+
+# Message sent to all online players when someone activate a key.
+# Use <cubeshop_product_name> as a placeholder to call the product name in your string.
+# Use <cubeshop_player_name> as a placeholder to call the player name in your string.
+Message_all: "<cubeshop_player_name> passou na CubeShop e levou um <cubeshop_product_name>! Obrigado pelo seu apoio!"

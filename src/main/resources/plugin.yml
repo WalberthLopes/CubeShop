@@ -1,0 +1,12 @@
+name: CubeShop
+version: '${project.version}'
+main: com.walberth.cubeshop.Main
+api-version: 1.19
+authors: [ Nextti ]
+description: Handle product keys validation in the database
+website: https://www.cubecave.net/
+libraries:
+  - org.postgresql:postgresql:42.5.0
+commands:
+  shopkey:
+    description: Check the validity of the provided key.
