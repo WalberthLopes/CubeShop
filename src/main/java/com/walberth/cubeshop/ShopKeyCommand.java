@@ -107,9 +107,9 @@ public class ShopKeyCommand implements CommandExecutor {
                                             user.sendMessage(ChatColor.translateAlternateColorCodes('&', finalPrefix) +
                                                     ChatColor.YELLOW + playerName +
                                                     " " +
-                                                    ChatColor.WHITE + "Passou na CubeShop e levou um " +
+                                                    ChatColor.GREEN + "Passou na CubeShop e levou um " +
                                                     ChatColor.YELLOW + productName +
-                                                    ChatColor.WHITE + "! " +
+                                                    ChatColor.GREEN + "! " +
                                                     "Obrigado pelo seu apoio!"));
 
                                     commands.forEach(cmd -> Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), cmd));
@@ -123,7 +123,6 @@ public class ShopKeyCommand implements CommandExecutor {
 
                                     Bukkit.getOnlinePlayers().forEach(user ->
                                             user.sendMessage(ChatColor.translateAlternateColorCodes('&', finalPrefix) +
-                                                    " " +
                                                     ChatColor.translateAlternateColorCodes('&', formatedMessage)));
 
                                     commands.forEach(cmd -> Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), cmd));
