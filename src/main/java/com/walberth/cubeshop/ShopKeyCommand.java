@@ -52,7 +52,7 @@ public class ShopKeyCommand implements CommandExecutor {
                     assert postgres_url != null;
                     Connection connection = DriverManager.getConnection(postgres_url);
 
-                    String SQL_SELECT_KEY = "SELECT * FROM USER_PAYMENTS WHERE CODE = ?";
+                    String SQL_SELECT_KEY = "SELECT * FROM USER_PAYMENTS WHERE KEY = ?";
                     String SQL_SELECT_COMMANDS = "SELECT COMMANDS FROM PRODUCTS WHERE NAME = ?";
                     String SQL_UPDATE_KEY = "UPDATE USER_PAYMENTS SET IS_USED = ?, USED_AT = ?, USED_BY = ? WHERE KEY = ?";
 
@@ -69,7 +69,6 @@ public class ShopKeyCommand implements CommandExecutor {
                     while (resultSet.next()) {
                         String productName = resultSet.getString("name");
                         String productStatus = resultSet.getString("status");
-                        String productUsedDate = resultSet.getString("used_at");
                         boolean productUsed = resultSet.getBoolean("is_used");
 
                         if (productUsed) {
