@@ -37,12 +37,12 @@ public class ShopKeyCommand implements CommandExecutor {
             String playerName = player.getName();
             String prefix = main.getConfig().getString("Prefix");
 
-            if (prefix == null) prefix = ChatColor.DARK_PURPLE + "[CubeCave] ";
+            if (prefix == null) prefix = ChatColor.GOLD + "CubeCave: ";
             String finalPrefix = prefix;
 
             if (args.length == 0) {
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', finalPrefix) +
-                        ChatColor.GRAY + "Utilize o comando: /shopkey <key> para ativar uma key.");
+                        ChatColor.RED + "Utilize o comando: /shopkey <key>");
                 return false;
             } else {
                 String playerSendedKey = args[0];
