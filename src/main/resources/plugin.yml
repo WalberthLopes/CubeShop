@@ -10,3 +10,4 @@ libraries:
 commands:
   shopkey:
     description: Check the validity of the provided key.
+    permission: cubeshop.command.shopkey

@@ -8,11 +8,19 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 
 public class ShopKeyCommand implements CommandExecutor {
+
+    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+
+    Calendar calendar = Calendar.getInstance();
+
+    String acctualDate = formatter.format(calendar.getTime());
 
     private final Main main;
 
@@ -44,9 +52,9 @@ public class ShopKeyCommand implements CommandExecutor {
                     assert postgres_url != null;
                     Connection connection = DriverManager.getConnection(postgres_url);
 
-                    String SQL_SELECT_KEY = "SELECT * FROM PURCHASES WHERE CODE = ?";
+                    String SQL_SELECT_KEY = "SELECT * FROM USER_PAYMENTS WHERE CODE = ?";
                     String SQL_SELECT_COMMANDS = "SELECT COMMANDS FROM PRODUCTS WHERE NAME = ?";
-                    String SQL_UPDATE_KEY = "UPDATE PURCHASES SET USED = ?, USERNAME = ? WHERE CODE = ?";
+                    String SQL_UPDATE_KEY = "UPDATE USER_PAYMENTS SET IS_USED = ?, USED_AT = ?, USED_BY = ? WHERE KEY = ?";
 
                     PreparedStatement statement = connection.prepareStatement(SQL_SELECT_KEY);
                     statement.setString(1, playerSendedKey);
@@ -59,17 +67,26 @@ public class ShopKeyCommand implements CommandExecutor {
                     }
 
                     while (resultSet.next()) {
-                        String productName = resultSet.getString("product");
-                        boolean productUsed = resultSet.getBoolean("used");
+                        String productName = resultSet.getString("name");
+                        String productStatus = resultSet.getString("status");
+                        String productUsedDate = resultSet.getString("used_at");
+                        boolean productUsed = resultSet.getBoolean("is_used");
 
                         if (productUsed) {
                             player.sendMessage(ChatColor.translateAlternateColorCodes('&', finalPrefix) +
                                     ChatColor.RED + "Esta key já foi utilizada não está mais disponível.");
-                        }else {
+                        } else if (Objects.equals(productStatus, "unpaid")) {
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', finalPrefix) +
+                                    ChatColor.RED + "Seu pagamento não foi aprovado.");
+                        } else if (Objects.equals(productStatus, "awaiting")) {
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', finalPrefix) +
+                                    ChatColor.RED + "Seu pagamento ainda está sendo processado.");
+                        } else {
                             statement = connection.prepareStatement(SQL_UPDATE_KEY);
                             statement.setBoolean(1, true);
-                            statement.setString(2, playerName);
-                            statement.setString(3, playerSendedKey);
+                            statement.setString(2, acctualDate);
+                            statement.setString(3, playerName);
+                            statement.setString(4, playerSendedKey);
                             statement.execute();
 
                             statement = connection.prepareStatement(SQL_SELECT_COMMANDS);
